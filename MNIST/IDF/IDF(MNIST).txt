@@ -1,0 +1,4 @@
+3 0 ../resources/reference/MNIST16x24/0_16x24/0_0000.raw
+3 0 ../resources/reference/MNIST16x24/0_16x24/0_0001.raw
+3 0 ../resources/reference/MNIST16x24/1_16x24/1_0002.raw
+3 0 ../resources/reference/MNIST16x24/1_16x24/1_0003.raw

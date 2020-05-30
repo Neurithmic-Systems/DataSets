@@ -1,0 +1,104 @@
+{
+	"comment": "**This NDF file is loaded by Sparsey cmd line to run the MNIST dataset**",
+	
+	"comment": "Note that commas slashes and some other punctuation in comments are not currently 
+				supported by the ndf parser so please avoid them or the parser will get confused.",
+
+	"comment": "This NDF file contains parameters for a Category Sparsey Network.",
+
+
+	"Labels": true,
+	"comment": "NUMLEVELS is assumed to be 1.",
+	"NumLevels": 1,
+	"comment": "NUMINPUTFEATURES is an integer for the number of supervised categories there are.",
+	"NumInputFeatures": 10,
+	"comment": "INPUTHEIGHT and INPUTWIDTH are integers that should multiply out to NUMINPUTFEATURES.
+				INPUTHEIGHT is assumed to be 1 and INPUTWIDTH varies according to the number of categories.",
+	"InputHeight": 1,
+	"InputWidth": 10,
+
+	"ActiveInputFeaturesLowBoundAsFrac": [0.0],
+	"ActiveInputFeaturesHighBoundAsFrac": [0.0],
+
+	"ExcelTraceFilesEpisodeLimit": 3,
+	"ExcelTraceFilesFrameLimit": 4,
+	"ExcelTraceFilesMacLimit": 4,
+	
+	"Prev_Winner_Exclude_Policy": false,
+	"OP_Policy": false,
+	"D_Learning_Policy": "FromPrevOnly",
+
+	"Backoff_Policy": "true",
+	"Use_ML_Recog": false,
+
+	"SaveMacCodeTables": true,
+
+	"Level_Width_in_MACs": [0],
+	"Level_Height_in_MACs": [0],
+	"MAC_Width_in_CMs": [0],
+	"MAC_Height_in_CMs": [0],
+	"Cells_Per_CM": [0],
+
+	"Persistence": [0],
+	"OvercodeFactor": 2,
+
+	"U_Connectivity_Band_Thickness": [0.0],
+	"U_Connectivity_Band_Rates": [1.0],
+	"U_saturation_threshold": 0.5,
+
+	"H_Connectivity_Band_Thickness": [0.0],
+	"H_Connectivity_Band_Rates": [1.0],
+	"H_saturation_threshold": 0.5,
+
+	"D_Connectivity_Band_Thickness": [0.0],
+	"D_Connectivity_Band_Rates": [1.0],
+	"D_saturation_threshold": 0.5,
+
+	"MU_Range_Expansion_Factor": [0],
+	"MU_Range_Expansion_Exp": [0],
+
+	"U_EI_Exp":
+	{
+		"train": 3,
+		"recog": 3
+	},
+	
+	"U_NEI_Exp":
+	{
+		"train": 2,
+		"recog": 2
+	},
+
+	"U_min_cutoff": 0.1,
+	"U_max_cutoff": 0.9,
+	"U_MCH_Ignore_Thresh": 4.0,
+	"U_MCH_Discount_Exp": 0.75,
+
+	"H_Exp":
+	{
+		"train": 2,
+		"recog": 2
+	},
+
+	"H_min_cutoff": 0.1,
+	"H_max_cutoff": 0.9,
+	"H_MCH_Ignore_Thresh": 4.0,
+	"H_MCH_Discount_Exp": 0.75,
+
+	"D_Exp":
+	{
+		"train": 2,
+		"recog": 2
+	},
+
+	"D_min_cutoff": 0.1,
+	"D_max_cutoff": 0.9,
+	"D_MCH_Ignore_Thresh": 4.0,
+	"D_MCH_Discount_Exp": 0.75,
+
+	"netBinaryPath": 
+	{
+		"windows": "C:\TEMECOR_NETS_BINARY\",
+		"mac": "../Binary/MNIST/"
+	}
+}

@@ -1,0 +1,95 @@
+{
+	"comment": "**This NDF file is loaded by Sparsey cmd line to run the MNIST dataset**",
+	
+	"comment": "Note that commas slashes and some other punctuation in comments are not currently 
+				supported by the ndf parser so please avoid them or the parser will get confused.",
+
+	"comment": "This NDF file contains parameters for a MultiModalNetwork.
+				The MultiModalNetwork controls the operation of various subnetworks of different modalities
+				such as vision audition categories etc.",
+
+	"comment": "NETWORKNAMES is an array of strings for the human-readable names of the subnetworks.",
+	"networkNames": ["VisualTemecorNet", "CategoryNet"],
+	
+	"comment": "NDF is an array of strings for the filenames of the subnetwork NDF JSON files.",
+	"ndf": ["NDF_2L_1x1.json", "Category.json"],
+	
+	"comment": "NDFPATH is parameter specifying the relative path to the folder that contains the subnetwork NDF files.",
+	"ndfPath":
+	{
+		"windows": "../resources/reference/MNIST/NDF/",
+		"mac": "../resources/reference/MNIST/NDF/"
+	},
+
+	"comment": "NUMRETRIEVALRUNS is parameter specifying the number of runs to do during RECOG mode.",
+	"NumRetrievalRuns": 1,
+
+	"comment": "LEARNNEWNETFOREACHTRAININGRUN is a boolean parameter that indicates whether on the operation mode
+				such as TRAIN or RECOG the network weights should be reset. Passed into prepareNetForNewRun::prepareNetForNewRun.",
+	"LearnNewNetForEachTrainingRun" :
+	{
+		"train": true,
+		"recog": false
+	},
+
+	"comment": "SUPERVISEDMODE is a boolean parameter. The CONTEXT defines how weights are updated between the category network
+				and the modal networks during supervised learning. 
+				sup1WeightsOnly --- If this context is set to true weights are updated bidirectionally between the top level modal
+									networks and the category network.",
+	"supervisedMode":
+	{
+		"sup1WeightsOnly": true,
+		"sup2WeightsAndSignals": false
+	},
+
+	"comment": "SUPMODWTUPDATEFREQ is an int parameter that specifies how often weights between the modal networks and
+				the category network are updated during supervised learning. Values:
+				-1 or 0:   Update only at the end of the snippet (last frame).
+				1 or more: Update every 1 or more frames.",
+	"SupModWtUpdateFreq": 1,
+
+	"comment": "LOADBINARYNET is a boolean that indicates whether to load weights and network configuration details from
+				disk (assuming training has been previously performed and the net was exported to disk).
+				Loading binaries is skipped if training occurs on the same run as subsequent operation modes
+				because the networks are already built. ",
+	"loadBinaryNet": true,
+
+	"Import_PerfStats": true,
+	"Export_PerfStats": true,
+
+	"Perf_Stats_Export_Path":
+	{
+		"windows": "../Binary",
+		"mac": "../Binary"
+	},
+
+	"comment": "RESUMELEARNING is a boolean parameter to indicate whether the network should learn additional episodes
+				when operating in TRAIN mode again after loading the network or EpisodeContainers from disk.
+				In other words if the network is in training mode and the EpisodeContainer contains episodes that were
+				not previously learned then if this parameter true the network will continue learning on top of the old episodes.",
+	"resumeLearning" : false,
+
+	"comment": "SYNC EPS ACROSS MODE is a boolean parameter that if set to true will make the episodes during recog mirror those used
+				during training.",
+	"Sync_Eps_Across_Mode": true,
+
+	"comment": "NUMCROSSVALIDATIONFOLDS is an int for the number of cross validation folds to set if operating in cross validation mode.",
+	"numCrossValidationFolds": 1,
+
+	"comment": "LINEARINTRANETWORKCONNECTIVITY is a boolean. 
+				If true (default) each model network will build U H and D connections between and within successive layers. 
+				For example for a 3 level net. U: 1 to 2. 2 to 3. D: 3 to 2. 2 to 1. H: 1 to 1. 2 to 2. 3 to 3.
+				If false only the bundles manually enumerated in the array of array parameter INTERNETBUNDLES will be set.",
+	"LinearIntraNetworkConnectivity": true,
+
+	"comment": "USEINTERNETWORKBUNDLES is a boolean for whether inter-network bundles (bundles that connect multiple subnetworks)
+				should be imported according to the parameter INTERNETBUNDLES.", 
+	"UseInterNetBundles": true,
+
+	"comment": "INTERNETBUNDLES is an array of array data type whereby each subarray or element is a specification of a 
+				bundle (intra- or inter-network). Here is how a connection is specified:
+				SourceNet human-readable name --comma-- Level of the SourceNet --comma-- TargetNet human-readable name
+				--comma-- Level of the TargetNet
+				Levels are ints from 0 to N but the strings TOP and BOTTOM may be subsituted.", 
+	"InterNetBundles": [["CategoryNet", 0, "VisualTemecorNet", "top"], ["VisualTemecorNet", "top", "CategoryNet", 0]]
+}

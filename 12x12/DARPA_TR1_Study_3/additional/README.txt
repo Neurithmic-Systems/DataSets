@@ -1,0 +1,1 @@
+These stimuli were not used in the original TR1 study 3.

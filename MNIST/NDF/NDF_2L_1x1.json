@@ -1,0 +1,278 @@
+{
+	"comment": "**This NDF file is loaded by Sparsey cmd line to run the MNIST dataset**",
+	
+	"comment": "Note that commas slashes and some other punctuation in comments are not currently 
+				supported by the ndf parser so please avoid them or the parser will get confused.",
+
+	"comment": "This NDF file contains parameters for a Visual Sparsey Network.
+				The network processes and holds representation visual signals.
+				Where possible Equation numbers and variable names in the Sparsey
+				Frontiers paper are provided.
+				Singleton parameter values apply to all network layers.
+				Array parameter value elements apply to corresponding levels in the network.
+					If there are N levels and N-1 values are given in the array then 
+					parameters are applied to corresponding levels after skipping over
+					the input level as a shorthand.",
+
+
+	"comment": "NUMLEVELS is an int for the number of network levels starting with 0 at the lowest level where cells
+				code the input (no macs or cms).",
+	"NumLevels": 				2,
+
+	"comment": "INPUTHEIGHT is an int for the number of vertical pixels in a frame of the visual episode.",
+	"InputHeight": 				24,
+	"comment": "INPUTWIDTH is an int for the number of horizontal pixels in a frame of the visual episode.",
+	"InputWidth": 				16,
+
+	"comment": "ACTIVEINPUTFEATURESLOWBOUNDASFRAC is an floating point value between 0 and 1 which is the
+				lowerbound proportion of active inputs in the afferent receptive field or aperature that is necessary to
+				activate a mac. ACTIVEINPUTFEATURESHIGHBOUNDASFRAC is the upperbound proportion.
+				To activate a mac the number of input features needs to be within the range.
+				Corresponds to pixels in the input level 0 or features in higher levels.
+				ACTIVEINPUTFEATURESLOWBOUNDASFRAC is pi- divided by the number of afferent inputs (Eq 1).
+				ACTIVEINPUTFEATURESHIGHBOUNDASFRAC is pi+ divided by the number of afferent inputs (Eq 1).",
+	"ActiveInputFeaturesLowBoundAsFrac": 	[[0.02]],
+	"ActiveInputFeaturesHighBoundAsFrac": 	[[0.3]],
+
+	"ExcelTraceFilesEpisodeLimit": 		3,
+	"ExcelTraceFilesFrameLimit": 		4,
+	"ExcelTraceFilesMacLimit": 		4,
+	
+	"comment": "PREV_WINNER_EXCLUDE_POLICY is a boolean. If true then when computing V (Eq. 4) cells that win in the previous
+				persistence period are excluded or disallowed to win in a CM on successive persistence periods.",
+	"Prev_Winner_Exclude_Policy": 		false,
+	"comment": "OP_POLICY is a boolean. If true a particular OP policy will be used throughout the CSA. Otherwise non-OP
+				versions of methods will be used. Only when OP is enabled can more than one cell win within a CM.",
+	"OP_Policy": 				false,
+
+	"comment": "D_LEARNING_POLICY is a string to specify how D signals should propogate during learning. Im not sure if this is
+				currently supported in the codebase. But here are known values that should do something:
+				FromPrevOnly: D signals come down from the level above after a time delay equal to 1 frame.",
+	"D_Learning_Policy": 			"FromPrevOnly",
+
+	"comment": "BACKOFF_POLICY is a boolean. Usually during the CSA the average spatiotemporal support/similarity across a mac
+				is computed by multiplicatively combining U H and D signals (Eq. 4). When backoff is enabled then pairwise 
+				multiplications will be considered also and if a pair of signals produce a better similarity then that will be
+				used to compute V. For example use U x D but not H.",
+	"Backoff_Policy": 			"false",
+
+	"Backoff_Strategy":
+	{
+		"Level_2": [["HU", 0.93, 1], ["U", 0.96, 2]]
+	},
+
+	"comment": "USE_ML_RECOG is a boolean parameter. If false the usual Code Selection Algorithm (CSA) will be used to Select 
+				codes during RECOG. In other words codes are activated according to a probabilistic soft max computation determined
+				by the spatiotemporal similarity or match. If set to true the CSA will be replaced by code selection that takes the
+				hard max (corresponding to the mode or maxmium) accross the learned distribution. ",
+	"Use_ML_Recog": 			true,
+
+	"comment": "NUM_FOLDS is an int for the number of folds being used when running in CROSS VALIDATION mode.",
+	"Num_Folds": 				2,
+
+	"comment": "SAVEMACCODETABLES is a boolean parameter. If true codes in each mac will be written to disk and read out from disk.",
+	"SaveMacCodeTables": 			true,
+
+	"comment": "LEVEL_WIDTH_IN_MACS and LEVEL_HEIGHT_IN_MACS are integer parameters to indicate how the total number of macs are arranged
+				in a rectangular grid at each level of the network.",
+	"Level_Width_in_MACs": 			[0, 1],
+	"Level_Height_in_MACs": 		[0, 1],
+
+	"comment": "MAC_WIDTH_IN_CMS and MAC_HEIGHT_IN_CMS are integer parameters to indicate how the total number of CMS are arranged
+				in a rectangular grid at each MAC of the network.
+				The parameters sum to Q.",
+	"MAC_Width_in_CMs": 			[0, 4],
+	"MAC_Height_in_CMs": 			[0, 4],
+
+	"comment": "CELLS_PER_CM is an integer for the number of cells per CM at each level (K).",
+	"Cells_Per_CM": 			[0, 12],
+
+	"comment": "PERSISTENCE is an integer parameter to indicate for how long a code remains ON (Delta(m) in Eq. 1). 
+				Usually for vision this means how many frames each code remains on. For example 1 means the code is
+				updated every frame. 2 means the code is updated every two frames and so forth.",	
+	"Persistence": 				[0, 1],
+	
+	"comment": "OVERCODEFACTOR is an integer parameter and is relevant if OP is turned on (see OP_POLICY parameter). The
+				parameter specifies how many cell winners there may be per CM.",
+	"OvercodeFactor": 			2,
+
+
+
+	"comment": "SIGMOID_RATE_FACTOR SIGMOID_LOWER_LIMIT and SIGMOID_INFLECTION_POINT are floating point parameters that manipulate the
+				shape of the sigmoid function that maps V (spatio-temporal match in a cell - Eq. 4) to psi (probablity of winning - Eq. 10).
+				SIGMOID_INFLECTION_POINT is sigma3 in Eq. 10
+				SIGMOID_RATE_FACTOR is sigma1 in Eq. 10
+				SIGMOID_LOWER_LIMIT is a thresold. If a V value of a cell is less than SIGMOID_LOWER_LIMIT then V is reset to SIGMOID_LOWER_LIMIT.
+									If the V value is greater than SIGMOID_LOWER_LIMIT then psi is computed and the result is normalized with
+									SIGMOID_LOWER_LIMIT as a discount factor.",
+	"Sigmoid_Lower_Limit": [1.0, 1.0],
+	"Sigmoid_Min_Inflection_Point":         [0.1, 0.1],
+	"Sigmoid_Max_Inflection_Point":         [0.9, 0.9],
+        
+        "Sigmoid_Min_Nonlin":                   [7.0, 7.0],
+	"Sigmoid_Max_Nonlin":                   [7.0, 7.0],
+	"Sigmoid_Lower_V_Cutoff":               [0.0, 0.0],
+	"Sigmoid_Upper_V_Cutoff":               [0.999, 0.999],
+	"Sigmoid_nu": 				[2.5, 2.5],
+
+	"U_NormalizationPolicy":		[0, 0],
+
+
+	"comment": "D_SWITCH allows switching off D connections by specifying the indices of levels for which they should be switched ON. 
+                             This parameter can either be left out (in which case all D connections are switched ON) or be specified with 
+                             an index for a level that doesn't exist in the network (e.g. index 4 for a 2-level network) in which case all 
+                             connections are switched OFF. Note that this array should not contain the index of the top level since there 
+                             should not be any D connections there.",
+
+
+	"D_switch":					[1],
+
+	"Comment": "H_SWITCH has the same intended use as D_SWITCH except that the index of the top level can be specified here since the 
+		             top level can have H connections",
+	
+	"H_switch": 					[1, 2],
+
+
+	"comment": "U_CONNECTIVITY_BAND_THICKNESS U_CONNECTIVITY_BAND_RATES and U_SATURATION_THRESHOLD are floating point parameters.
+	U_CONNECTIVITY_BAND_THICKNESS and U_Connectivity_Band_Rates can be given in Arrays of Arrays where each subarray corresponds to
+	a annular connectivity band cumulatively extending on the periphery of a central disk core connectivity band (the first subarray).
+	Elements of the subarrays correspond to different bands in each level if that degree of specification is desired. 
+	U_CONNECTIVITY_BAND_THICKNESS values can be any nonnegative floating point number and indicates the euclidean distance that the
+	band extends from the previous one. 
+	U_CONNECTIVITY_BAND_RATES values are between 0 and 1 and indicate how densely connections are wired within each band. For example
+	a band rate of 1 means everything is fully connected from source to target and 0 means nothing is connected. 
+	U_SATURATION_THRESHOLD is the proportion of U weights that need to be increased prior to freezing learning in a given mac so that
+	after that point no additional codes can be stored in that mac. ",
+	"U_Connectivity_Band_Thickness": 	[[0.0], [0.5]],
+	"U_Connectivity_Band_Rates": 		[[1.0], [1.0]],
+	"U_saturation_threshold": 		[0.1],
+
+
+	"comment": "H_CONNECTIVITY_BAND_THICKNESS H_CONNECTIVITY_BAND_RATES and H_SATHRATION_THRESHOLD are floating point parameters.
+	H_CONNECTIVITY_BAND_THICKNESS and H_Connectivity_Band_Rates can be given in Arrays of Arrays where each subarray corresponds to
+	a annular connectivity band cumulatively extending on the periphery of a central disk core connectivity band (the first subarray).
+	Elements of the subarrays correspond to different bands in each level if that degree of specification is desired. 
+	H_CONNECTIVITY_BAND_THICKNESS values can be any nonnegative floating point number and indicates the euclidean distance that the
+	band extends from the previous one. 
+	H_CONNECTIVITY_BAND_RATES values are between 0 and 1 and indicate how densely connections are wired within each band. For example
+	a band rate of 1 means everything is fully connected from source to target and 0 means nothing is connected. 
+	H_SATHRATION_THRESHOLD is the proportion of H weights that need to be increased prior to freezing learning in a given mac so that
+	after that point no additional codes can be stored in that mac. ",
+	"H_Connectivity_Band_Thickness": 	[[0.0], [0.5]],
+	"H_Connectivity_Band_Rates": 		[[1.0], [1.0]],
+	"H_saturation_threshold": 		[0.4],
+
+
+	"comment": "D_CONNECTIVITY_BAND_THICKNESS D_CONNECTIVITY_BAND_RATES and D_SATDRATION_THRESHOLD are floating point parameters.
+	D_CONNECTIVITY_BAND_THICKNESS and D_Connectivity_Band_Rates can be given in Arrays of Arrays where each subarray corresponds to
+	a annular connectivity band cumulatively extending on the periphery of a central disk core connectivity band (the first subarray).
+	Elements of the subarrays correspond to different bands in each level if that degree of specification is desired. 
+	D_CONNECTIVITY_BAND_THICKNESS values can be any nonnegative floating point number and indicates the euclidean distance that the
+	band extends from the previous one. 
+	D_CONNECTIVITY_BAND_RATES values are between 0 and 1 and indicate how densely connections are wired within each band. For example
+	a band rate of 1 means everything is fully connected from source to target and 0 means nothing is connected. 
+	D_SATDRATION_THRESHOLD is the proportion of D weights that need to be increased prior to freezing learning in a given mac so that
+	after that point no additional codes can be stored in that mac. ",
+	"D_Connectivity_Band_Thickness": 	[[0.0], [0.0]],
+	"D_Connectivity_Band_Rates": 		[[1.0], [1.0]],
+	"D_saturation_threshold": 		[0.4, 0.4],
+
+
+	"comment": "MU_RANGE_EXPANSION_FACTOR (Chi) and MU_RANGE_EXPANSION_FACTOR (gamma) are integer parameters of the sigmoid activation
+			 	function Eta (Eta -  Eq. 9) that transforms a cell V value to a relative probability of winning in a CM psi. ",
+	"MU_Range_Expansion_Factor":
+	{
+		"train": 			10,
+		"recog": 			10
+	},	
+	"MU_Range_Expansion_Exp":
+	{
+		"train": 			[0, 2],
+		"recog": 			[0, 2]
+	},
+
+
+
+	"comment": "U_EI_EXP (lambda_U value for 1st episode - Eq. 4)",
+	"U_EI_Exp":
+	{
+		"train": 			[2, 2],
+		"recog": 			[2, 2]
+	},
+	"comment": "U_NEI_EXP (lambda_U value for 2st episode and beyond - Eq. 4)",
+	"U_NEI_Exp":
+	{
+		"train": 			[2, 2],
+		"recog": 			[2, 2]
+	},
+	"comment": "U_MIN_CUTOFF - If afferent normalized sum (Eq. 3a) is less than this then sum set to zero.",
+	"U_min_cutoff":
+	{
+		"train": 			[0.1],
+		"recog": 			[0.1]
+	},
+	"comment": "U_MAX_CUTOFF - If afferent normalized sum (Eq. 3a) is above than this then sum set to 1.",
+	"U_max_cutoff":
+	{
+		"train": 			[0.9],
+		"recog": 			[0.9]
+	},	
+	"comment": "U_MCH_IGNORE_THRESH (B - Eq. 6) - If the number of a mac's Multiple Competiting Hypotheses (MCHs) 
+				reaches this integer thresold then the output from that mac is ignored (made to be zero).",
+	"U_MCH_Ignore_Thresh": 			[3.0],
+	"comment": "U_MCH_DISCOUNT_EXP (A - Eq. 6) - Prior to comparing the number of MCHs in a mac to the ignore threshold 
+				U_MCH_DISCOUNT_EXP is the exponent applied to the number of MCHs to discount the value. Usually less than 1.",
+	"U_MCH_Discount_Exp": 			[0.6],
+
+
+	"comment": "H_EXP (lambda_H value for 1st episode - Eq. 4)",
+	"H_Exp":
+	{
+		"train": 			[2],
+		"recog": 			[2]
+	},
+	"comment": "H_MIN_CUTOFF - If afferent normalized sum (Eq. 3b) is less than this then sum set to zero.",
+	"H_min_cutoff": 
+	{
+		"train": 			[0.1],
+		"recog": 			[0.1]
+	},
+	"comment": "H_MAX_CUTOFF - If afferent normalized sum (Eq. 3b) is above than this then sum set to 1.",
+	"H_max_cutoff":
+	{
+		"train": 			[0.9],
+		"recog": 			[0.9]
+	},
+	"comment": "H_MCH_IGNORE_THRESH (B - Eq. 6) - If the number of a mac's Multiple Competiting Hypotheses (MCHs) 
+				reaches this integer thresold then the output from that mac is ignored (made to be zero).",
+	"H_MCH_Ignore_Thresh": 			[4.0],
+	"comment": "H_MCH_DISCOUNT_EXP (A - Eq. 6) - Prior to comparing the number of MCHs in a mac to the ignore threshold 
+				H_MCH_DISCOUNT_EXP is the exponent applied to the number of MCHs to discount the value. Hsually less than 1.",
+	"H_MCH_Discount_Exp": 			[0.7],
+
+
+	"comment": "D_EXP (lambda_D value for 1st episode - Eq. 4)",
+	"D_Exp":
+	{
+		"train": 			[2, 2],
+		"recog": 			[2, 2]
+	},
+	"comment": "D_MIN_CUTOFF - If afferent normalized sum (Eq. 3c) is less than this then sum set to zero.",
+	"D_min_cutoff": 
+	{
+		"train": 			[0.1, 0.1],
+		"recog": 			[0.1, 0.1]
+	},
+	"comment": "D_MAX_CUTOFF - If afferent normalized sum (Eq. 3c) is above than this then sum set to 1.",
+	"D_max_cutoff":
+	{
+		"train": 			[0.9, 0.9],
+		"recog": 			[0.9, 0.9]
+	},
+	"comment": "D_MCH_IGNORE_THRESH (B - Eq. 6) - If the number of a mac's Multiple Competiting Hypotheses (MCHs) 
+				reaches this integer thresold then the output from that mac is ignored (made to be zero).",
+	"D_MCH_Ignore_Thresh": 			[4.0, 4.0],
+	"comment": "D_MCH_DISCOUNT_EXP (A - Eq. 6) - Prior to comparing the number of MCHs in a mac to the ignore threshold 
+				D_MCH_DISCOUNT_EXP is the exponent applied to the number of MCHs to discount the value. Dsually less than 1.",
+	"D_MCH_Discount_Exp": 			[0.7, 0.7],
+}

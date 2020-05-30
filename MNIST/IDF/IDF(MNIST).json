@@ -1,0 +1,100 @@
+{
+	"comment": "**This IDF file is loaded by Sparsey cmd line to specify input to run the MNIST dataset**",
+	
+	"comment": "Note that commas slashes and some other punctuation in comments are not currently 
+				supported by the ndf parser so please avoid them or the parser will get confused.",
+
+	"comment": "This IDF file is used to import in batch many episodes in unsupervised and supervised operation
+				modes which is ideal for working with a dataset or for doing cross validation.
+
+				Here is how you work in unsupervised mode. Have a folder for training episodes and for test episodes
+				called train and test respectively. Put all applicable episodes in those folders. If there are no folders
+				called train or test the network will load episodes in the DATASETDIRECTORY root.
+
+				Here is how you work in supervised mode. In the directory specifies below by DATASETDIRECTORY place
+				subfolders named with the class labels. The convention we use for category folder names is
+						DATASETDIRECTORY    categoryName underscore frame dimensions     episodes.raw
+				Anything after the underscore will be ignored by the parser and not be associated with the category name.",
+
+	"comment": "DATAFORMAT is the string parameter that indicates the file extension of episodes that will be imported.
+				only .raw is supported for now but avi and other audio video formats may be supported in the future.",
+	"dataFormat": "raw",
+
+	"comment": "NUMCLASSES is a supervised learning parameter that takes on int values. It indicates how many categories
+				Sparsey is going to work with during training or recog or crossvalidation.
+
+				For example if there are 4 subfolders each for a category then the network will load 2 of the 4.
+				If RANDOMCLASSCHOICE is set to true then the class selection will be random but still 2 of 4.
+				If LINEARCLASSCHOICE is set to true then the class selection will be loaded in alphanumeric order.
+				  eg 1 and 2 but not 3 and 4.
+				If CLASSLIST is set to true then the 1st 2 classes as specified by CLASSES will be used. Note that
+				the class strings in the CLASSES array should match  
+				
+				It is important that one of RANDOMCLASSCHOICE LINEARCLASSCHOICE or CLASSLIST is always set to true
+				but only one.",
+	"numClasses": 0,
+	"randomClassChoice": false,
+	"linearClassChoice": true,
+	"classList": false,
+	"classes": ["0", "3"],
+
+	"comment": "NUMEPISODESPERCATEGORY indicates how many episodes per category should be loaded. The convention is that
+	 			0 means that all episodes should be loaded even if the number of episodes in different categories is 
+	 			irregular. 
+				By default this variable uses contexts for train test and other modes so that the test and train sizes 
+				can be dissimilar.",
+	"numEpisodesPerCategory":
+	{
+		"train": 5,
+		"test": 5
+	},
+
+	"comment": "NUMTOTALEPISODES is an int that limits the total number of episodes loaded into the train or test set.
+				Useful for cross validation where for testing or memory purposes only a large subset of the dataset should
+				be loaded.
+				0 means load everything.",
+	"numTotalEpisodes": 0,
+
+
+	"comment": "MAXFRAMESIZE is a parameter that specifies how many frames per episode should be loaded.
+				If there are more frames than specified the episode frame count is capped.
+				If there are insufficient frames in the actual episode to load the specified number of frames
+				then all available frames in the episode will be used.
+				0 means to load all frames present in all episodes.",
+	"maxFrameSize":
+	{
+		"train": 0,
+		"test": 0
+	},
+
+	"comment": "MAXONPIXELSPERFRAME is a parameter that specifies the proportion between 0 and 1 of pixels or 
+				on features that are allowable in a frame of video. Lower means a sparser constraint and higher
+				means the input can be more dense. The consequence of this is the size of the array that holds
+				input features is set to accomodate this proportion of features in a frame.",
+
+	"maxOnPixelsPerFrame": 0.4,
+
+	"comment": "RANDOMEPCHOICE is a boolean parameter that if true will load episodes from the directories in
+				random sequence otherwise episodes will be imported alphanumerically. This works with any operation
+				mode. For example in unsupervised learning if no train or test folder is specified a random selection
+				of episodes will be used during training or test. In supervised mode episodes of each category will 
+				be loaded randomly with the correct total number. 
+
+				Note that this does not control whether the same random episodes are used during train and recog. This
+				functionality is controlled by another parameter called Sync_Eps_Across_Mode which is a parameter located in the
+				multiModalNetwork NDF.",
+	"randomEpChoice": true,
+	
+	"comment": "SAMPLE_EPS_WITH_REPLACEMENT if true allows duplicate random episodes to be imported from a dataset directory
+				if RANDEPCHOICE is set to true.",
+	"Sample_Eps_With_Replacement": false,
+
+	"comment": "DATASETDIRECTORY is a string parameter that indicates the relative or absolute path to the dataset root
+				folder. As mentioned above the input episodes may either be inserted here or in train and test folders 
+				or in category subfolders.",
+	"dataSetDirectory":
+	{
+		"windows": "../resources/reference/MNIST/MNIST16x24/",
+		"mac": "../resources/reference/MNIST/MNIST16x24/"
+	}
+}

@@ -1,0 +1,93 @@
+{
+	"comment": "**This NDF file is loaded by Sparsey cmd line to run the MNIST dataset**",
+	
+	"comment": "Note that commas slashes and some other punctuation in comments are not currently 
+				supported by the ndf parser so please avoid them or the parser will get confused.",
+
+	"comment": "OPERATIONMODE is a boolean context variable that allows you to run one or 
+				more modes in a given run of Sparsey. For example setting train and recog
+				both to true runs training and then recog mode.
+				NOTE the trained network binary is NOT read from disk when running multiple
+				modes in the same run --- the network state during training is preserved.",
+	"operationMode":
+	{
+		"train": true,
+		"recog": true,
+		"recall": false,
+		"crossValidate": false
+	},
+
+	"comment": "RESULTSFOLDER is the relative .. or absolute path string that specifies where
+				the network traces should be written to. Like for other path parameters contexts
+				can be used to handle mac unix pc differences in directory conventions. But relative
+				and forward slash notation seems to work for both windows and macs.",
+	"resultsFolder": 
+	{
+		"windows": "../resources/reference/MNIST/Results/",
+		"mac": "../resources/reference/MNIST/Results/"
+	},
+	
+	"comment": "TRAINTRACESFILE and TESTTRACESFILE specify the names of the .txt trace files located
+				in the RESULTSFOLDER directory.",
+	"trainTracesFile": "train_traces_MNIST.txt",
+	"testTracesFile": "test_traces_MNIST.txt",
+
+	"comment": "VERBOSE is a debug parameter that takes on int values greater than zero. The higher
+				the value the more detail about Sparseys state is outputted to the console during
+				operation. Here are some rules of thumb on what different values will print out
+				  1 see headers about which cells macs etc are active and other basic stuff
+				  2 see network parameters
+				  3 see info on which episodecontainers are used and compared
+				  5 see which parameters are added
+				  8 see learning codes and similarity matrices
+				  10 see traces
+				  20 see info on weight updating
+				  23 see recog to learned code similarity and likelihood tables
+				  30 very detailed. see when all parameters are accessed.",
+	"verbose": 23,
+
+	"comment": "IDF is a string parameter that specifies the .txt or .json IDF file or Input 
+				Descriptor File. When .txt is used Sparsey expects a 2 or 3 column space delimited file 
+				that adheres to the following
+				  col1. An int value for using the input file. 1 for training 2 for recog or 3 for both.
+				  col2. In supervised learning or recog mode this column specifies the category of the Input
+				    file that is to be specifies in col3. If not in supervised mode the second column contains the
+				    relative or absolute file path to a input file which right now needs to be in .raw format. 
+				    Each row corresponds to a new input episode.
+				  col3. Only in supervised mode in which case the file path is listed.
+				When a .json file is used the intent is usually for working with a large dataset since importing of
+				episodes during supervised or unsupervised modes is in batch mode. The .txt format is good for smaller
+				datasets or where individually enumerating which inputs to train or test on is useful.",
+	"idf": "IDF(MNIST).json",
+	"comment": "IDFPATH is the relative .. or absolute path string that specifies where
+				the IDF file is read from.",
+	"idfPath":
+	{
+		"windows": "../resources/reference/MNIST/IDF/",
+		"mac": "../resources/reference/MNIST/IDF/"
+	},
+
+
+	"comment": "MULTIMODALNDFPATH is a string parameter that specifies the.json IDF file or Input 
+				Descriptor File for the multumodalnetwork which is the highest level abstraction of
+				a Sparsey network. Multimodalnetworks organize and coordinate subordinate networkNames
+				for different modalities such as vision and audition.",
+	"multiModalNDF": "MultiModal_NDF_2N_X.json",
+	"comment": "MULTIMODALNDFPATH is the relative .. or absolute path string that specifies where
+				the NDF file is read from.",
+	"multiModalNDFPath":
+	{
+		"windows": "../resources/reference/MNIST/NDF/",
+		"mac": "../resources/reference/MNIST/NDF/"
+	},
+
+	"comment": "NETBINARYPATH is a string parameter that specifies the relative or absolute path on disk where
+				the network binary that holds the network state after learning is stored. The network binary is
+				exported after a successful training run and is loaded if recog is run as the only operation mode
+				during a run of Sparsey.",
+	"netBinaryPath": 
+	{
+		"windows": "Binary",
+		"mac": "Binary"
+	}
+}

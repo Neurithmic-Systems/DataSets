@@ -1,0 +1,11 @@
+This dataset consists of two zip files.  Each contains 110 samples of 11 spoken digits, 0-9, and also "oh" (i.e., some people say "oh" instead of "zero"). There are five
+speakers and there are two instances of each digit for a total of 5x22 samples.  The samples comes from Dan Ellis (https://www.ee.columbia.edu/~dpwe/sounds/) "Clean digits"
+derived from TIDIGITS.  These are .wav file sampled at 22 mhz.  Codie Petersen created Mel frequency cepstral coeficient (MFCC) versions of these files with 32
+frequencies, discretizes to 20 power levels.  The time window for each frame is XXX and the time window delta wa XXX.  This resulted in about 25-40 frames per sample. The
+MFCC samples were then converted into Sparsey's "raw" format.  Specifically, each frequency bin is represented by 40 bits and each power level is represented by a contiguous
+block of 20 "on" bits.  Level 0 is represented by bits 0-19 active, level 1, by bits 1-20 active,....level 19 by bits 20-39 active.  This format is essential because it
+captures the complete similarity relations between power levels across the full range of power levels.  That is, level 0's input representation (bits 0-19) has an intersection
+of 19 bits with level 1's representation (1-20), but only 18 bits with level 2's representation (2-21), etc.,..., and finally, of only 1 bit with level 20's representation
+(20-39).  Thus, similarity in the input space (scalar magnitude) is preserved in the input representation.
+
+In Sparsey's "raw" format, the bits are actually represented by bytes, "1" bits by hex 00 and "0" by hex FF.

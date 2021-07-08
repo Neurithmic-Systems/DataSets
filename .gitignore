@@ -5,3 +5,5 @@ CIFAR-10/Converted/Raw/96x96/Test/
 CIFAR-10/Converted/Raw/96x96/Train/
 AudioDigits/Female_40Cells_32Frequencies
 AudioDigits/Male_40Cells_32Frequencies
+AudioDigits/Female_40Cells_23Frequencies
+AudioDigits/Male_40Cells_23Frequencies
